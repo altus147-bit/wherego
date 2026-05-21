@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import type { Region } from '@/lib/types';
+import SafeImage from '@/components/ui/SafeImage';
 
 export default function RegionCard({ region }: { region: Region }) {
   return (
@@ -7,12 +8,13 @@ export default function RegionCard({ region }: { region: Region }) {
       href={`/region/${region.id}`}
       className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-ink-100 shadow-card"
     >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <SafeImage
         src={region.thumbnailUrl}
         alt={region.nameKo}
-        loading="lazy"
+        seed={region.id}
         className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-active:scale-105"
+        width={400}
+        height={500}
       />
       <div className="absolute inset-0 bg-gradient-to-t from-ink-900/70 via-ink-900/10 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-3 text-white">

@@ -4,6 +4,7 @@ import { Flame, Heart, Users, Utensils, Leaf, CloudRain, Globe2 } from 'lucide-r
 import AppHeader from '@/components/layout/AppHeader';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CourseRankCard from '@/components/course/CourseRankCard';
+import SafeImage from '@/components/ui/SafeImage';
 import { regions } from '@/data/regions';
 import { topCourses } from '@/data/courses';
 
@@ -40,11 +41,13 @@ export default function HomePage() {
             href="/courses"
             className="relative block aspect-[16/9] w-full overflow-hidden rounded-3xl shadow-card"
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <SafeImage
               src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?auto=format&fit=crop&w=1600&q=80"
               alt="이번 주말, 어디로 떠나볼까요?"
+              seed="hero-banner"
               className="absolute inset-0 h-full w-full object-cover"
+              width={1200}
+              height={675}
             />
             <div className="absolute inset-0 bg-gradient-to-br from-ink-900/55 via-ink-900/20 to-transparent" />
             <div className="absolute inset-0 flex flex-col justify-center p-6 text-white">
@@ -150,12 +153,14 @@ export default function HomePage() {
                 href={`/region/${r.id}`}
                 className="group relative block aspect-[5/3] overflow-hidden rounded-2xl bg-ink-100 shadow-card"
               >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                {/* eslint-disable-next-line jsx-a11y/alt-text */}
+                <SafeImage
                   src={r.thumbnailUrl}
                   alt={r.nameKo}
-                  loading="lazy"
+                  seed={r.id}
                   className="absolute inset-0 h-full w-full object-cover"
+                  width={400}
+                  height={240}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-900/65 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 p-2.5 text-white">

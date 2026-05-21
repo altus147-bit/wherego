@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 import { findCourse, courses } from '@/data/courses';
+import SafeImage from '@/components/ui/SafeImage';
 
 export function generateStaticParams() {
   const params: { id: string; placeId: string }[] = [];
@@ -51,11 +52,13 @@ export default function PlaceDetailPage({
       {/* 표지 이미지 */}
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-ink-100">
         {placeImage && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <SafeImage
             src={placeImage}
             alt={place.placeNameKo}
+            seed={place.id}
             className="absolute inset-0 h-full w-full object-cover"
+            width={800}
+            height={600}
           />
         )}
         <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between p-3">

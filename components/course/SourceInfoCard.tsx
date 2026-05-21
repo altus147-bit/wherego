@@ -1,6 +1,7 @@
 import { ExternalLink } from 'lucide-react';
 import type { Course } from '@/lib/types';
 import { formatDateKo, platformLabel } from '@/lib/format';
+import SafeImage from '@/components/ui/SafeImage';
 
 export default function SourceInfoCard({ course }: { course: Course }) {
   const cover = course.images.find((i) => i.isCover) ?? course.images[0];
@@ -10,12 +11,13 @@ export default function SourceInfoCard({ course }: { course: Course }) {
       <div className="flex gap-3 p-3">
         {cover && (
           <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-ink-100">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <SafeImage
               src={cover.imageUrl}
               alt={course.sourceTitle}
-              loading="lazy"
+              seed={`src-${course.id}`}
               className="absolute inset-0 h-full w-full object-cover"
+              width={200}
+              height={200}
             />
           </div>
         )}

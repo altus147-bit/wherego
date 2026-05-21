@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
 
 import CourseCard from '@/components/course/CourseCard';
+import SafeImage from '@/components/ui/SafeImage';
 import { findRegion, regions } from '@/data/regions';
 import { coursesByRegion } from '@/data/courses';
 
@@ -20,11 +21,13 @@ export default function RegionDetailPage({ params }: { params: { id: string } })
     <div>
       {/* Hero header */}
       <div className="relative h-[200px] w-full overflow-hidden bg-ink-100">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <SafeImage
           src={region.thumbnailUrl}
           alt={region.nameKo}
+          seed={`region-${region.id}`}
           className="absolute inset-0 h-full w-full object-cover"
+          width={800}
+          height={400}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-900/75 via-ink-900/30 to-ink-900/40" />
         <Link

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Star, Bookmark } from 'lucide-react';
 import type { Course } from '@/lib/types';
+import SafeImage from '@/components/ui/SafeImage';
 
 export default function CourseCard({ course, rank }: { course: Course; rank?: number }) {
   const cover = course.images.find((i) => i.isCover) ?? course.images[0];
@@ -11,12 +12,13 @@ export default function CourseCard({ course, rank }: { course: Course; rank?: nu
     >
       <div className="relative h-24 w-24 flex-shrink-0 overflow-hidden rounded-xl bg-ink-100">
         {cover && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <SafeImage
             src={cover.imageUrl}
             alt={course.titleKo}
-            loading="lazy"
+            seed={course.id}
             className="absolute inset-0 h-full w-full object-cover"
+            width={300}
+            height={300}
           />
         )}
         {rank !== undefined && (

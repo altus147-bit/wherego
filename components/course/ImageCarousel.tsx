@@ -4,6 +4,7 @@ import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Share2, Heart } from 'lucide-react';
 import type { CourseImage } from '@/lib/types';
+import SafeImage from '@/components/ui/SafeImage';
 
 export default function ImageCarousel({
   images,
@@ -23,12 +24,14 @@ export default function ImageCarousel({
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden bg-ink-100">
       {current && (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <SafeImage
           key={current.id}
           src={current.imageUrl}
           alt={alt}
+          seed={current.id}
           className="absolute inset-0 h-full w-full object-cover"
+          width={800}
+          height={600}
         />
       )}
 
