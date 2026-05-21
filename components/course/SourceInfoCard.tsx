@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { ExternalLink } from 'lucide-react';
 import type { Course } from '@/lib/types';
 import { formatDateKo, platformLabel } from '@/lib/format';
@@ -11,12 +10,12 @@ export default function SourceInfoCard({ course }: { course: Course }) {
       <div className="flex gap-3 p-3">
         {cover && (
           <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-ink-100">
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src={cover.imageUrl}
               alt={course.sourceTitle}
-              fill
-              sizes="80px"
-              className="object-cover"
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </div>
         )}

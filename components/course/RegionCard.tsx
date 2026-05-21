@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import type { Region } from '@/lib/types';
 
 export default function RegionCard({ region }: { region: Region }) {
@@ -8,12 +7,12 @@ export default function RegionCard({ region }: { region: Region }) {
       href={`/region/${region.id}`}
       className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-ink-100 shadow-card"
     >
-      <Image
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src={region.thumbnailUrl}
         alt={region.nameKo}
-        fill
-        sizes="(max-width: 768px) 50vw, 220px"
-        className="object-cover transition-transform duration-300 group-active:scale-105"
+        loading="lazy"
+        className="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-active:scale-105"
       />
       <div className="absolute inset-0 bg-gradient-to-t from-ink-900/70 via-ink-900/10 to-transparent" />
       <div className="absolute inset-x-0 bottom-0 p-3 text-white">

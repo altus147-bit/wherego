@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { Flame, Heart, Users, Utensils, Leaf, CloudRain, Globe2 } from 'lucide-react';
 
 import AppHeader from '@/components/layout/AppHeader';
+import SectionHeader from '@/components/ui/SectionHeader';
 import CourseRankCard from '@/components/course/CourseRankCard';
 import { regions } from '@/data/regions';
 import { topCourses } from '@/data/courses';
@@ -23,50 +23,50 @@ const themes = [
   { id: 'eats', label: '맛집투어', icon: Utensils, tint: 'bg-amber-50 text-amber-600' },
   { id: 'nature', label: '자연/힐링', icon: Leaf, tint: 'bg-emerald-50 text-emerald-600' },
   { id: 'rain', label: '비 오는 날', icon: CloudRain, tint: 'bg-sky-50 text-sky-600' },
-  { id: 'foreign', label: '외국인 추천', icon: Globe2, tint: 'bg-accent-50 text-accent-600' },
+  { id: 'foreign', label: '외국인 추천', icon: Globe2, tint: 'bg-brand-50 text-brand-600' },
 ];
 
 export default function HomePage() {
   const top5 = topCourses(5);
 
   return (
-    <div className="bg-paper-50 pb-6">
+    <div>
       <AppHeader />
 
-      <div className="space-y-7 pb-6">
-        {/* ===== 1. 표지 (매거진 표지 톤) ===== */}
-        <section className="px-5 pt-2">
+      <div className="space-y-6 pb-6">
+        {/* 히어로 배너 */}
+        <section className="px-4 pt-2">
           <Link
             href="/courses"
-            className="relative block aspect-[4/5] w-full overflow-hidden rounded-3xl shadow-card"
+            className="relative block aspect-[16/9] w-full overflow-hidden rounded-3xl shadow-card"
           >
-            <Image
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
               src="https://images.unsplash.com/photo-1547036967-23d11aacaee0?auto=format&fit=crop&w=1600&q=80"
-              alt="이번 주의 여행"
-              fill
-              priority
-              sizes="(max-width: 768px) 100vw, 440px"
-              className="object-cover"
+              alt="이번 주말, 어디로 떠나볼까요?"
+              className="absolute inset-0 h-full w-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/65" />
-            <div className="absolute inset-x-0 top-0 p-7">
-              <p className="magazine-label text-white/85">VOL. 01 · WEEKEND ISSUE</p>
-            </div>
-            <div className="absolute inset-x-0 bottom-0 p-7 text-white">
-              <h2 className="magazine-title text-[30px] leading-[1.15] drop-shadow-md">
-                이번 주말,<br />
-                <span className="italic">어디로 떠나볼까요?</span>
+            <div className="absolute inset-0 bg-gradient-to-br from-ink-900/55 via-ink-900/20 to-transparent" />
+            <div className="absolute inset-0 flex flex-col justify-center p-6 text-white">
+              <p className="text-[13px] font-medium text-white/85">이번 주말,</p>
+              <h2 className="mt-1 text-[22px] font-bold leading-tight">
+                어디로 떠나볼까요?
               </h2>
-              <p className="mt-3 font-serif text-[13px] italic text-white/90">
-                — 어디갈까? 편집부가 고른 이번 주의 여정
+              <p className="mt-2 text-[12.5px] text-white/85">
+                국내 최고의 여행 코스를 추천해드려요
               </p>
+            </div>
+            <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+              <span className="h-1.5 w-5 rounded-full bg-white" />
+              <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
+              <span className="h-1.5 w-1.5 rounded-full bg-white/50" />
             </div>
           </Link>
         </section>
 
-        {/* ===== 2. 지역 빠른 이동 ===== */}
+        {/* 지역 빠른 칩 */}
         <section className="overflow-hidden">
-          <div className="no-scrollbar flex gap-4 overflow-x-auto px-5">
+          <div className="no-scrollbar flex gap-3 overflow-x-auto px-4">
             {regionChips.map((r) => (
               <Link
                 key={r.id}
@@ -76,8 +76,8 @@ export default function HomePage() {
                 <span
                   className={`flex h-12 w-12 items-center justify-center rounded-2xl border ${
                     r.id === 'all'
-                      ? 'border-accent-200 bg-accent-50 text-accent-600'
-                      : 'border-paper-200 bg-white text-ink-700'
+                      ? 'border-brand-200 bg-brand-50 text-brand-600'
+                      : 'border-ink-100 bg-white text-ink-700'
                   }`}
                 >
                   {r.id === 'all' ? (
@@ -100,91 +100,79 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* ===== 3. 인기 코스 TOP 5 ===== */}
-        <section>
-          <div className="mb-3 flex items-baseline justify-between px-5">
-            <div>
-              <p className="magazine-label mb-1 text-accent-500">EDITOR'S CHOICE</p>
-              <h3 className="magazine-title flex items-center gap-1.5 text-[18px] text-ink-900">
-                <Flame className="h-[18px] w-[18px] text-accent-500" strokeWidth={2.4} />
-                이주의 추천 코스
-              </h3>
-            </div>
-            <Link href="/courses" className="font-serif text-[12px] italic text-ink-500 hover:text-accent-600">
-              더보기 →
-            </Link>
-          </div>
-          <div className="no-scrollbar flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2">
+        {/* 인기 코스 TOP 5 */}
+        <section className="px-4">
+          <SectionHeader
+            title={
+              <>
+                <Flame className="h-5 w-5 text-orange-500" strokeWidth={2.4} /> 인기 코스 TOP 5
+              </>
+            }
+            moreHref="/courses"
+          />
+          <div className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 pb-2">
             {top5.map((c, i) => (
               <CourseRankCard key={c.id} course={c} rank={i + 1} />
             ))}
-            {/* 캐러셀 마지막 여백 */}
-            <span className="block w-3 flex-shrink-0" />
+            <span className="block w-1 flex-shrink-0" />
           </div>
         </section>
 
-        {/* ===== 4. 테마 ===== */}
-        <section className="px-5">
-          <div className="mb-3 text-center">
-            <p className="magazine-label mb-1 text-accent-500">BY THEME</p>
-            <h3 className="magazine-title text-[18px] text-ink-900">테마로 찾아보기</h3>
-          </div>
-          <div className="grid grid-cols-3 gap-2.5">
+        {/* 테마 그리드 */}
+        <section className="px-4">
+          <SectionHeader title="테마로 찾아보기" moreHref="/courses" />
+          <div className="grid grid-cols-3 gap-2">
             {themes.map((t) => {
               const Icon = t.icon;
               return (
                 <Link
                   key={t.id}
                   href={`/courses?theme=${t.id}`}
-                  className="flex flex-col items-center justify-center gap-2 rounded-2xl bg-white py-5 shadow-card transition active:scale-95"
+                  className="flex flex-col items-center justify-center gap-1.5 rounded-2xl bg-white py-4 shadow-card transition active:scale-95"
                 >
                   <span className={`flex h-10 w-10 items-center justify-center rounded-xl ${t.tint}`}>
                     <Icon className="h-5 w-5" strokeWidth={2.2} />
                   </span>
-                  <span className="font-serif text-[12.5px] font-bold text-ink-800">{t.label}</span>
+                  <span className="text-[12.5px] font-semibold text-ink-700">{t.label}</span>
                 </Link>
               );
             })}
           </div>
         </section>
 
-        {/* ===== 5. 지역별 ===== */}
-        <section className="px-5">
-          <div className="mb-3 text-center">
-            <p className="magazine-label mb-1 text-accent-500">BY REGION</p>
-            <h3 className="magazine-title text-[18px] text-ink-900">지역별로 둘러보기</h3>
-          </div>
+        {/* 지역별 둘러보기 */}
+        <section className="px-4">
+          <SectionHeader title="지역별로 둘러보기" moreHref="/region" />
           <div className="grid grid-cols-2 gap-3">
             {regions.slice(0, 4).map((r) => (
               <Link
                 key={r.id}
                 href={`/region/${r.id}`}
-                className="group relative block aspect-[4/5] overflow-hidden rounded-2xl bg-paper-200 shadow-card"
+                className="group relative block aspect-[5/3] overflow-hidden rounded-2xl bg-ink-100 shadow-card"
               >
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={r.thumbnailUrl}
                   alt={r.nameKo}
-                  fill
-                  sizes="(max-width: 768px) 50vw, 220px"
-                  className="object-cover transition duration-500 group-hover:scale-[1.03]"
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/15 to-transparent" />
-                <div className="absolute inset-x-0 bottom-0 p-3.5 text-white">
-                  <p className="font-serif text-[15px] font-bold leading-tight italic">{r.nameKo}</p>
-                  <p className="text-[10.5px] tracking-wide text-white/85">코스 {r.courseCount}개</p>
+                <div className="absolute inset-0 bg-gradient-to-t from-ink-900/65 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-2.5 text-white">
+                  <p className="text-[13px] font-bold leading-tight">{r.nameKo}</p>
+                  <p className="text-[11px] text-white/80">코스 {r.courseCount}개</p>
                 </div>
               </Link>
             ))}
           </div>
         </section>
 
-        {/* ===== 6. 큐레이션 정책 (잡지 발행 정보 느낌) ===== */}
-        <section className="mx-5 mt-4">
-          <div className="divider-thin mb-4" />
-          <p className="magazine-label mb-2 text-center text-ink-400">CURATION POLICY</p>
-          <p className="text-center font-serif text-[12px] italic leading-relaxed text-ink-600">
-            모든 코스는 공개된 출처를 바탕으로 편집부가 직접 검수합니다.<br />
-            원문 저작자의 권리를 존중하며, 출처를 항상 함께 표시합니다.
+        {/* 큐레이션 정책 */}
+        <section className="mx-4 rounded-2xl border border-brand-100 bg-brand-50/60 p-4">
+          <h3 className="text-[13.5px] font-bold text-brand-700">큐레이션 정책</h3>
+          <p className="mt-1 text-[12px] leading-relaxed text-ink-700">
+            모든 코스는 출처가 확인된 공개 콘텐츠와 사용자 제보를 관리자가 검수한 뒤 공개됩니다.
+            외부 이미지를 무단으로 저장하지 않고, 원문 출처를 항상 함께 표시합니다.
           </p>
         </section>
       </div>

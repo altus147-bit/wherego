@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { ChevronLeft } from 'lucide-react';
@@ -21,13 +20,11 @@ export default function RegionDetailPage({ params }: { params: { id: string } })
     <div>
       {/* Hero header */}
       <div className="relative h-[200px] w-full overflow-hidden bg-ink-100">
-        <Image
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
           src={region.thumbnailUrl}
           alt={region.nameKo}
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 440px"
-          className="object-cover"
+          className="absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink-900/75 via-ink-900/30 to-ink-900/40" />
         <Link

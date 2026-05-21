@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { ChevronLeft, ChevronRight, Share2, Heart } from 'lucide-react';
 import type { CourseImage } from '@/lib/types';
@@ -24,18 +23,15 @@ export default function ImageCarousel({
   return (
     <div className="relative aspect-[4/3] w-full overflow-hidden bg-ink-100">
       {current && (
-        <Image
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
           key={current.id}
           src={current.imageUrl}
           alt={alt}
-          fill
-          sizes="(max-width: 768px) 100vw, 440px"
-          className="object-cover"
-          priority={i === 0}
+          className="absolute inset-0 h-full w-full object-cover"
         />
       )}
 
-      {/* Top controls: back, share */}
       <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between p-3">
         <Link
           href={backHref}
@@ -60,7 +56,6 @@ export default function ImageCarousel({
         </div>
       </div>
 
-      {/* Side arrows */}
       {total > 1 && (
         <>
           <button
@@ -80,7 +75,6 @@ export default function ImageCarousel({
         </>
       )}
 
-      {/* Page indicator pill */}
       <div className="absolute bottom-3 left-1/2 z-10 -translate-x-1/2 rounded-full bg-ink-900/70 px-3 py-1 text-[12px] font-medium text-white backdrop-blur">
         {i + 1} / {total}
       </div>

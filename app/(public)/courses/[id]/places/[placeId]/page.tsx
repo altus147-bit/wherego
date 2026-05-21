@@ -1,14 +1,16 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import {
   ChevronLeft,
+  ChevronRight,
   MapPin,
   Clock,
   ExternalLink,
   Share2,
   Bookmark,
   Navigation,
+  Phone,
+  Ticket,
 } from 'lucide-react';
 
 import { findCourse, courses } from '@/data/courses';
@@ -45,220 +47,172 @@ export default function PlaceDetailPage({
   const kakaoMapUrl = `https://map.kakao.com/?q=${encodeURIComponent(place.placeNameKo)}`;
 
   return (
-    <article className="bg-paper-50 pb-28 text-ink-900">
-      {/* ===== 1. 표지 ===== */}
-      <header className="relative h-[60vh] min-h-[420px] w-full overflow-hidden">
+    <div className="pb-8">
+      {/* 표지 이미지 */}
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-ink-100">
         {placeImage && (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={placeImage}
             alt={place.placeNameKo}
-            fill
-            priority
-            sizes="(max-width: 768px) 100vw, 440px"
-            className="object-cover"
+            className="absolute inset-0 h-full w-full object-cover"
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-black/10 to-black/70" />
-
-        {/* 네비 */}
-        <div className="absolute inset-x-0 top-0 z-10 flex items-center justify-between px-5 pt-5">
+        <div className="absolute inset-x-0 top-0 z-10 flex items-start justify-between p-3">
           <Link
             href={`/courses/${course.id}`}
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition active:scale-95"
             aria-label="코스로 돌아가기"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-ink-900 shadow-soft backdrop-blur"
           >
-            <ChevronLeft className="h-5 w-5 text-white" strokeWidth={2.2} />
+            <ChevronLeft className="h-6 w-6" strokeWidth={2.4} />
           </Link>
-          <div className="flex gap-2">
-            <button
-              aria-label="공유"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition active:scale-95"
-            >
-              <Share2 className="h-5 w-5 text-white" strokeWidth={2.2} />
-            </button>
+          <div className="flex items-center gap-2">
             <button
               aria-label="저장"
-              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 backdrop-blur-md transition active:scale-95"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-ink-900 shadow-soft backdrop-blur"
             >
-              <Bookmark className="h-5 w-5 text-white" strokeWidth={2.2} />
+              <Bookmark className="h-5 w-5" strokeWidth={2.2} />
+            </button>
+            <button
+              aria-label="공유"
+              className="flex h-10 w-10 items-center justify-center rounded-full bg-white/85 text-ink-900 shadow-soft backdrop-blur"
+            >
+              <Share2 className="h-5 w-5" strokeWidth={2.2} />
             </button>
           </div>
         </div>
-
-        {/* 표지 텍스트 */}
-        <div className="absolute inset-x-0 bottom-0 px-7 pb-12 text-white">
-          <p className="magazine-label mb-3 text-white/85">
-            {course.regionNameKo} · {course.titleKo}
-          </p>
-          <div className="mb-3 flex items-baseline gap-3">
-            <span className="chapter-number text-[40px] text-white drop-shadow-md">
-              {String(order).padStart(2, '0')}
-            </span>
-            <span className="font-serif text-[14px] italic text-white/80">
-              CH. {order} / {String(total).padStart(2, '0')}
-            </span>
-          </div>
-          <h1 className="magazine-title text-[32px] leading-[1.15] text-white drop-shadow-md">
-            {place.placeNameKo}
-          </h1>
-          {place.category && (
-            <p className="mt-2 font-serif text-[13px] italic text-white/90">
-              {categoryLabel(place.category)}
-            </p>
-          )}
+        {/* 순서 뱃지 */}
+        <div className="absolute bottom-3 left-3 z-10 flex items-center gap-1.5 rounded-full bg-brand-500 px-3 py-1.5 text-[12px] font-bold text-white shadow-soft">
+          {place.emoji && <span className="text-[14px]">{place.emoji}</span>}
+          <span>
+            {order}번째 코스 · {order} / {total}
+          </span>
         </div>
-      </header>
+      </div>
 
-      {/* ===== 2. 본문 ===== */}
-      <section className="px-7 pt-12">
-        <div className="divider-thin mb-8" />
+      {/* 흰색 카드 슬라이드업 */}
+      <section className="relative -mt-5 rounded-t-3xl bg-white px-5 pb-5 pt-5">
+        <h1 className="text-[22px] font-extrabold leading-tight text-ink-900">
+          {place.placeNameKo}
+        </h1>
+        <p className="mt-1 text-[12.5px] font-medium text-brand-600">
+          {categoryLabel(place.category)} · {course.regionNameKo}
+        </p>
 
         {place.descriptionKo && (
-          <p className="magazine-body dropcap text-ink-800">
+          <p className="mt-4 text-[14px] leading-relaxed text-ink-700">
             {place.descriptionKo}
           </p>
         )}
 
-        {/* 팁 박스 */}
-        {place.tipKo && (
-          <div className="my-10 border-l-2 border-accent-400 bg-paper-100/60 px-5 py-4">
-            <p className="magazine-label mb-2 text-accent-600">EDITOR'S TIP</p>
-            <p className="magazine-quote text-[14.5px] text-ink-800">
-              {place.tipKo}
-            </p>
+        {/* 머무는 시간 큰 박스 */}
+        <div className="mt-5 flex items-center gap-3 rounded-2xl bg-brand-50 px-4 py-3.5">
+          <Clock className="h-6 w-6 flex-shrink-0 text-brand-500" strokeWidth={2.2} />
+          <div className="flex-1">
+            <p className="text-[11.5px] text-ink-500">머무는 시간</p>
+            <p className="text-[15px] font-bold text-ink-900">약 {place.stayMinutes}분</p>
           </div>
-        )}
-
-        <div className="divider-thin my-10" />
+        </div>
       </section>
 
-      {/* ===== 3. 정보 박스 ===== */}
-      <section className="px-7">
-        <p className="magazine-label mb-5 text-center text-accent-500">
-          INFORMATION
-        </p>
-
-        <dl className="space-y-5">
+      {/* 정보 박스 */}
+      <section className="px-5">
+        <h2 className="mb-3 text-[15px] font-bold text-ink-900">장소 정보</h2>
+        <div className="space-y-2.5">
           <InfoRow
-            icon={<MapPin className="h-4 w-4" strokeWidth={2} />}
+            icon={<MapPin className="h-[18px] w-[18px]" strokeWidth={2} />}
             label="주소"
-            value={place.addressKo}
+            value={place.addressKo || '주소 정보 없음'}
           />
           {place.openHoursKo && (
             <InfoRow
-              icon={<Clock className="h-4 w-4" strokeWidth={2} />}
+              icon={<Clock className="h-[18px] w-[18px]" strokeWidth={2} />}
               label="운영 시간"
               value={place.openHoursKo}
             />
           )}
-          <InfoRow
-            icon={<Clock className="h-4 w-4" strokeWidth={2} />}
-            label="머무는 시간"
-            value={`약 ${place.stayMinutes}분`}
-          />
           {place.phone && (
             <InfoRow
-              icon={
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.86 19.86 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92Z" />
-                </svg>
-              }
+              icon={<Phone className="h-[18px] w-[18px]" strokeWidth={2} />}
               label="전화"
               value={place.phone}
             />
           )}
           {place.admissionFee && (
             <InfoRow
-              icon={
-                <svg
-                  viewBox="0 0 24 24"
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <rect x="2" y="6" width="20" height="12" rx="2" />
-                  <circle cx="12" cy="12" r="2" />
-                </svg>
-              }
+              icon={<Ticket className="h-[18px] w-[18px]" strokeWidth={2} />}
               label="입장료"
               value={place.admissionFee}
             />
           )}
-        </dl>
+        </div>
       </section>
 
-      {/* ===== 4. 길찾기 ===== */}
-      <section className="mx-7 mt-10 rounded-2xl border border-paper-200 bg-white p-5">
-        <p className="magazine-label mb-3 text-center text-ink-500">
-          DIRECTIONS
-        </p>
-        <p className="mb-5 text-center font-serif text-[13px] italic text-ink-600">
-          외부 지도 앱으로 길찾기를 시작합니다
-        </p>
-        <div className="grid grid-cols-2 gap-3">
+      {/* 에디터 팁 */}
+      {place.tipKo && (
+        <section className="mx-5 mt-5 rounded-2xl border border-brand-100 bg-brand-50/60 p-4">
+          <h3 className="text-[13.5px] font-bold text-brand-700">💡 여행 팁</h3>
+          <p className="mt-1 text-[13px] leading-relaxed text-ink-700">{place.tipKo}</p>
+        </section>
+      )}
+
+      {/* 길찾기 버튼 */}
+      <section className="space-y-2 px-5 pt-5">
+        <h2 className="mb-2 text-[15px] font-bold text-ink-900">길찾기</h2>
+        <div className="grid grid-cols-2 gap-2">
           <a
             href={naverMapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-full bg-[#03c75a] py-3 text-[13px] font-semibold text-white transition active:scale-95"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-[#03c75a] py-3 text-[13.5px] font-bold text-white transition active:scale-[0.98]"
           >
-            <Navigation className="h-4 w-4" strokeWidth={2.2} />
+            <Navigation className="h-[18px] w-[18px]" strokeWidth={2.2} />
             네이버 지도
           </a>
           <a
             href={kakaoMapUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 rounded-full bg-[#ffe812] py-3 text-[13px] font-semibold text-ink-900 transition active:scale-95"
+            className="flex items-center justify-center gap-2 rounded-2xl bg-[#ffe812] py-3 text-[13.5px] font-bold text-ink-900 transition active:scale-[0.98]"
           >
-            <Navigation className="h-4 w-4" strokeWidth={2.2} />
+            <Navigation className="h-[18px] w-[18px]" strokeWidth={2.2} />
             카카오맵
           </a>
         </div>
       </section>
 
-      {/* ===== 5. 출처 ===== */}
-      <section className="mt-12 px-7">
-        <div className="divider-thin mb-6" />
-        <p className="magazine-label mb-3 text-center text-ink-500">
-          ABOUT THIS PLACE
-        </p>
-        <p className="text-center font-serif text-[12.5px] italic text-ink-500">
-          이 장소 정보는 코스의 원문 출처<br />
-          <span className="text-ink-700">{course.sourceTitle}</span>에서<br />
-          수집되었습니다.
-        </p>
-        <a
-          href={course.sourceUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mx-auto mt-4 flex w-fit items-center gap-1.5 text-[12px] font-semibold text-accent-600 underline-offset-4 hover:underline"
-        >
-          원문 보러가기
-          <ExternalLink className="h-3 w-3" strokeWidth={2.2} />
-        </a>
+      {/* 출처 */}
+      <section className="mt-6 px-5">
+        <div className="rounded-2xl border border-ink-100 bg-ink-50 p-4">
+          <p className="text-[12px] text-ink-500">이 장소 정보의 원문 출처</p>
+          <p className="mt-1 text-[13.5px] font-semibold text-ink-900">
+            {course.sourceTitle}
+          </p>
+          <a
+            href={course.sourceUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 flex items-center gap-1 text-[12.5px] font-semibold text-brand-600"
+          >
+            원문 보러가기
+            <ExternalLink className="h-3.5 w-3.5" strokeWidth={2.2} />
+          </a>
+        </div>
       </section>
 
-      {/* ===== 6. 이전/다음 챕터 ===== */}
-      <section className="mt-14 px-7">
-        <div className="divider-dotted mb-6" />
-        <div className="grid grid-cols-2 gap-3">
+      {/* 이전/다음 코스 */}
+      <section className="mt-6 px-5">
+        <div className="grid grid-cols-2 gap-2">
           {prev ? (
             <Link
               href={`/courses/${course.id}/places/${prev.id}`}
-              className="group rounded-xl border border-paper-200 p-4 text-left transition active:scale-[0.98]"
+              className="flex items-center gap-2 rounded-2xl bg-white p-3 shadow-card transition active:scale-[0.99]"
             >
-              <p className="magazine-label text-ink-400">PREV</p>
-              <p className="mt-1.5 font-serif text-[13px] font-bold text-ink-900 line-clamp-1">
-                {prev.placeNameKo}
-              </p>
+              <ChevronLeft className="h-5 w-5 flex-shrink-0 text-ink-400" strokeWidth={2.2} />
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] text-ink-500">이전 코스</p>
+                <p className="truncate text-[13px] font-bold text-ink-900">{prev.placeNameKo}</p>
+              </div>
             </Link>
           ) : (
             <div />
@@ -266,31 +220,31 @@ export default function PlaceDetailPage({
           {next ? (
             <Link
               href={`/courses/${course.id}/places/${next.id}`}
-              className="group rounded-xl border border-paper-200 p-4 text-right transition active:scale-[0.98]"
+              className="flex items-center gap-2 rounded-2xl bg-white p-3 text-right shadow-card transition active:scale-[0.99]"
             >
-              <p className="magazine-label text-accent-500">NEXT</p>
-              <p className="mt-1.5 font-serif text-[13px] font-bold text-ink-900 line-clamp-1">
-                {next.placeNameKo}
-              </p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] text-ink-500">다음 코스</p>
+                <p className="truncate text-[13px] font-bold text-ink-900">{next.placeNameKo}</p>
+              </div>
+              <ChevronRight className="h-5 w-5 flex-shrink-0 text-brand-500" strokeWidth={2.2} />
             </Link>
           ) : (
             <Link
               href={`/courses/${course.id}`}
-              className="rounded-xl border border-paper-200 p-4 text-right transition active:scale-[0.98]"
+              className="flex items-center gap-2 rounded-2xl bg-brand-500 p-3 text-right shadow-soft transition active:scale-[0.99]"
             >
-              <p className="magazine-label text-accent-500">END</p>
-              <p className="mt-1.5 font-serif text-[13px] font-bold text-ink-900">
-                코스로 돌아가기
-              </p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[11px] text-white/85">마지막 코스</p>
+                <p className="truncate text-[13px] font-bold text-white">코스로 돌아가기</p>
+              </div>
+              <ChevronRight className="h-5 w-5 flex-shrink-0 text-white" strokeWidth={2.2} />
             </Link>
           )}
         </div>
       </section>
-    </article>
+    </div>
   );
 }
-
-/* ============ 부속 ============ */
 
 function InfoRow({
   icon,
@@ -302,13 +256,13 @@ function InfoRow({
   value: string;
 }) {
   return (
-    <div className="flex items-start gap-4 border-b border-paper-200 pb-4">
-      <div className="mt-0.5 flex-shrink-0 text-ink-400">{icon}</div>
-      <div className="flex-1">
-        <dt className="magazine-label mb-1 text-ink-500">{label}</dt>
-        <dd className="font-serif text-[14px] leading-relaxed text-ink-800">
+    <div className="flex items-start gap-3 rounded-2xl bg-white p-3 shadow-card">
+      <div className="mt-0.5 flex-shrink-0 text-brand-500">{icon}</div>
+      <div className="min-w-0 flex-1">
+        <p className="text-[11.5px] text-ink-500">{label}</p>
+        <p className="mt-0.5 text-[13.5px] font-semibold leading-relaxed text-ink-900">
           {value}
-        </dd>
+        </p>
       </div>
     </div>
   );
