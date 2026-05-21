@@ -4,18 +4,18 @@ import { ChevronLeft } from 'lucide-react';
 
 import CourseCard from '@/components/course/CourseCard';
 import SafeImage from '@/components/ui/SafeImage';
-import { findRegion, regions } from '@/data/regions';
-import { coursesByRegion } from '@/data/courses';
+import { findRegion as findMockRegion } from '@/data/regions';
+import { coursesByRegion as mockCoursesByRegion } from '@/data/courses';
+import { fetchRegion, fetchCoursesByRegion } from '@/lib/db';
 
-export function generateStaticParams() {
-  return regions.map((r) => ({ id: r.id }));
-}
+export const dynamic = 'force-dynamic';
 
-export default function RegionDetailPage({ params }: { params: { id: string } }) {
-  const region = findRegion(params.id);
+export default async function RegionDetailPage({ params }: { params: { id: string } }) {
+  const region = (await fetchRegion(params.id)) ?? findMockRegion(params.id);
   if (!region) notFound();
 
-  const list = coursesByRegion(region.id);
+  const dbList = await fetchCoursesByRegion(params.id);
+  const list = dbList.length > 0 ? dbList : mockCoursesByRegion(params.id);
 
   return (
     <div>

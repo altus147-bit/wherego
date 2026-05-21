@@ -1,14 +1,10 @@
 import Link from 'next/link';
 import { Search } from 'lucide-react';
-import { collectedSources, collectedStats } from '@/data/collected';
+import { collectedSources as mockSources, collectedStats as mockStats } from '@/data/collected';
+import { fetchCollectedSources, fetchCollectedStats } from '@/lib/db';
 import { formatDateKo, platformLabel, statusLabel } from '@/lib/format';
 
-const statusChips = [
-  { key: 'all', label: '전체', count: collectedStats.total, tone: 'default' as const },
-  { key: 'pending', label: '검수대기', count: collectedStats.pending, tone: 'pending' as const },
-  { key: 'approved', label: '승인', count: collectedStats.approved, tone: 'approved' as const },
-  { key: 'rejected', label: '반려', count: collectedStats.rejected, tone: 'rejected' as const },
-];
+export const dynamic = 'force-dynamic';
 
 const toneCls: Record<'pending' | 'approved' | 'rejected', string> = {
   pending: 'bg-amber-50 text-amber-700 border-amber-200',
@@ -16,7 +12,23 @@ const toneCls: Record<'pending' | 'approved' | 'rejected', string> = {
   rejected: 'bg-rose-50 text-rose-700 border-rose-200',
 };
 
-export default function AdminDashboard() {
+export default async function AdminDashboard() {
+  // Supabase에서 가져옴. 비어있으면 mock으로 폴백
+  const dbSources = await fetchCollectedSources();
+  const dbStats = await fetchCollectedStats();
+
+  const sources = dbSources.length > 0 ? dbSources : mockSources;
+  const stats = dbStats.total > 0 ? dbStats : mockStats;
+
+  const isLive = dbSources.length > 0;
+
+  const statusChips = [
+    { key: 'all', label: '전체', count: stats.total },
+    { key: 'pending', label: '검수대기', count: stats.pending },
+    { key: 'approved', label: '승인', count: stats.approved },
+    { key: 'rejected', label: '반려', count: stats.rejected },
+  ];
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -79,7 +91,7 @@ export default function AdminDashboard() {
               </tr>
             </thead>
             <tbody>
-              {collectedSources.map((s) => (
+              {sources.map((s) => (
                 <tr key={s.id} className="border-t border-ink-100 hover:bg-ink-50/50">
                   <td className="px-4 py-3">
                     <input type="checkbox" />
@@ -124,8 +136,10 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <p className="text-[11.5px] text-ink-400">
-        Mock 데이터입니다. Supabase 연결 후 실제 검수 워크플로(pending → approved/rejected/hidden)로 대체됩니다.
+      <p className={`text-[11.5px] ${isLive ? 'text-emerald-600' : 'text-ink-400'}`}>
+        {isLive
+          ? '✅ Supabase 실시간 데이터 - 데이터베이스에서 직접 조회 중입니다.'
+          : 'Mock 데이터입니다. Supabase 연결 후 실제 검수 워크플로로 대체됩니다.'}
       </p>
     </div>
   );

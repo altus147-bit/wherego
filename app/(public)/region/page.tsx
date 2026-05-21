@@ -1,11 +1,16 @@
 import { Search } from 'lucide-react';
 import AppHeader from '@/components/layout/AppHeader';
 import RegionCard from '@/components/course/RegionCard';
-import { regions } from '@/data/regions';
+import { regions as mockRegions } from '@/data/regions';
+import { fetchAllRegions } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 const provinceChips = ['전체', '서울', '부산', '제주', '강원', '전라', '인천'];
 
-export default function RegionPage() {
+export default async function RegionPage() {
+  const dbRegions = await fetchAllRegions();
+  const regions = dbRegions.length > 0 ? dbRegions : mockRegions;
   return (
     <div>
       <AppHeader title="지역" showBell={false} />

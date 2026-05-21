@@ -16,7 +16,8 @@ import {
   ListChecks,
 } from 'lucide-react';
 
-import { findCourse, courses } from '@/data/courses';
+import { findCourse as findMockCourse, courses as mockCourses } from '@/data/courses';
+import { fetchCourse } from '@/lib/db';
 import Chip from '@/components/ui/Chip';
 import ImageCarousel from '@/components/course/ImageCarousel';
 import CourseMapPreview from '@/components/course/CourseMapPreview';
@@ -28,12 +29,15 @@ import {
   transportLabel,
 } from '@/lib/format';
 
-export function generateStaticParams() {
-  return courses.map((c) => ({ id: c.id }));
-}
+// DB에서 매번 새로 조회
+export const dynamic = 'force-dynamic';
 
-export default function CourseDetailPage({ params }: { params: { id: string } }) {
-  const course = findCourse(params.id);
+// generateStaticParams 비활성화 (DB 사용 시 의미 없음)
+
+export default async function CourseDetailPage({ params }: { params: { id: string } }) {
+  // DB에서 먼저, 없으면 mock으로 폴백
+  const dbCourse = await fetchCourse(params.id);
+  const course = dbCourse ?? findMockCourse(params.id);
   if (!course) notFound();
 
   return (

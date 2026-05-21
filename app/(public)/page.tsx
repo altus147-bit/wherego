@@ -5,8 +5,12 @@ import AppHeader from '@/components/layout/AppHeader';
 import SectionHeader from '@/components/ui/SectionHeader';
 import CourseRankCard from '@/components/course/CourseRankCard';
 import SafeImage from '@/components/ui/SafeImage';
-import { regions } from '@/data/regions';
-import { topCourses } from '@/data/courses';
+import { regions as mockRegions } from '@/data/regions';
+import { topCourses as mockTopCourses } from '@/data/courses';
+import { fetchAllRegions, fetchTopCourses } from '@/lib/db';
+
+// 매번 새로 조회 (캐시 안 함)
+export const dynamic = 'force-dynamic';
 
 const regionChips = [
   { id: 'all', label: '전체' },
@@ -27,8 +31,12 @@ const themes = [
   { id: 'foreign', label: '외국인 추천', icon: Globe2, tint: 'bg-brand-50 text-brand-600' },
 ];
 
-export default function HomePage() {
-  const top5 = topCourses(5);
+export default async function HomePage() {
+  // Supabase에서 가져옴. 비어있으면 mock으로 폴백 (개발/장애 안전망)
+  const dbRegions = await fetchAllRegions();
+  const dbTopCourses = await fetchTopCourses(5);
+  const regions = dbRegions.length > 0 ? dbRegions : mockRegions;
+  const top5 = dbTopCourses.length > 0 ? dbTopCourses : mockTopCourses(5);
 
   return (
     <div>

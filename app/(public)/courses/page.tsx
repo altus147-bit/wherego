@@ -2,13 +2,17 @@ import Link from 'next/link';
 import { ChevronLeft, Search, SlidersHorizontal } from 'lucide-react';
 
 import CourseCard from '@/components/course/CourseCard';
-import { courses } from '@/data/courses';
+import { courses as mockCourses } from '@/data/courses';
+import { fetchAllCourses } from '@/lib/db';
+
+export const dynamic = 'force-dynamic';
 
 const sortChips = ['추천순', '최신순', '별점순', '저장순'];
 const filterChips = ['당일치기', '1박 2일', '뚜벅이 가능', '차량 추천', '데이트', '가족', '외국인 추천'];
 
-export default function CourseListPage() {
-  const sorted = [...courses]
+export default async function CourseListPage() {
+  const dbCourses = await fetchAllCourses();
+  const sorted = (dbCourses.length > 0 ? dbCourses : mockCourses)
     .filter((c) => c.status === 'approved')
     .sort((a, b) => b.score - a.score);
 

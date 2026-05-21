@@ -13,25 +13,18 @@ import {
   Ticket,
 } from 'lucide-react';
 
-import { findCourse, courses } from '@/data/courses';
+import { findCourse as findMockCourse } from '@/data/courses';
+import { fetchCourse } from '@/lib/db';
 import SafeImage from '@/components/ui/SafeImage';
 
-export function generateStaticParams() {
-  const params: { id: string; placeId: string }[] = [];
-  for (const c of courses) {
-    for (const p of c.places) {
-      params.push({ id: c.id, placeId: p.id });
-    }
-  }
-  return params;
-}
+export const dynamic = 'force-dynamic';
 
-export default function PlaceDetailPage({
+export default async function PlaceDetailPage({
   params,
 }: {
   params: { id: string; placeId: string };
 }) {
-  const course = findCourse(params.id);
+  const course = (await fetchCourse(params.id)) ?? findMockCourse(params.id);
   if (!course) notFound();
   const place = course.places.find((p) => p.id === params.placeId);
   if (!place) notFound();
