@@ -12,7 +12,7 @@ export default function RegionPage() {
       <div className="space-y-4 px-4 pb-6">
         {/* Search */}
         <div className="flex items-center gap-2 rounded-2xl border border-ink-100 bg-white px-3 py-2.5 shadow-card">
-          <Search className="h-4.5 w-4.5 text-ink-400" />
+          <Search className="h-[18px] w-[18px] text-ink-400" />
           <input
             type="text"
             placeholder="지역을 검색해보세요"

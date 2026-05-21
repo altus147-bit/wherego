@@ -9,7 +9,7 @@ const raw: Omit<Course, 'score'>[] = [
     titleKo: '강릉 바다 감성 가득 당일치기 코스',
     titleEn: 'Gangneung Seaside Day-Trip Course',
     summaryKo:
-      '푸른 바다와 감성 카페, 중앙시장 먹거리, 경포호 산책까지 담은 강릉 대표 당일치기 코스입니다.',
+      '강릉의 하루는 빠르게 흐르지 않습니다. 바다를 마주한 카페에서의 모닝커피, 시장 골목의 작은 행복, 호숫가의 노을까지 — 천천히, 충분히 음미하는 당일치기 여정입니다.',
     summaryEn:
       'A classic Gangneung day trip: blue ocean, café street, Jungang Market food, and a lakeside walk.',
     regionId: 'rg-gangneung',
@@ -52,10 +52,13 @@ const raw: Omit<Course, 'score'>[] = [
         lat: 37.7708,
         lng: 128.9466,
         stayMinutes: 60,
-        descriptionKo: '동해 바다를 마주한 카페 거리의 시작점, 안목해변',
+        descriptionKo:
+          '강릉의 하루는 안목해변에서 시작합니다. 새벽의 파도 소리와 함께 깨어나는 카페 거리, 바닷바람에 실려오는 원두 향. 이곳은 강릉이 어떤 도시인지 가장 먼저 알려주는 장소입니다. 모래를 밟으며 천천히 걷다 보면 도시의 소음은 어느새 사라지고, 마음에는 파도만 남습니다.',
         descriptionEn: 'Where the café street meets the sea.',
         externalMapUrl: 'https://maps.google.com/?q=37.7708,128.9466',
         emoji: '⛱️',
+        tipKo: '오전 7-9시 사이가 가장 한적합니다. 가벼운 산책 후 근처 카페에서 모닝커피를 즐겨보세요.',
+        openHoursKo: '24시간 개방',
       },
       {
         id: 'pl-gn-001-2',
@@ -69,10 +72,13 @@ const raw: Omit<Course, 'score'>[] = [
         lat: 37.7724,
         lng: 128.9472,
         stayMinutes: 90,
-        descriptionKo: '바다를 바라보며 마시는 강릉 커피 한 잔',
+        descriptionKo:
+          '강릉이 "커피의 도시"로 불리는 이유는 이 거리를 한 번만 걸어보면 알 수 있습니다. 바다를 바라보는 통창과 직접 로스팅하는 향, 그리고 각자의 색을 가진 카페들이 줄지어 있습니다. 어느 한 곳을 고르기 어렵다면, 사람이 적은 작은 골목 카페로 들어가 보세요. 그곳에서 진짜 강릉을 만날 수 있습니다.',
         descriptionEn: 'Coffee with a sea view — Gangneung specialty.',
         externalMapUrl: 'https://maps.google.com/?q=37.7724,128.9472',
         emoji: '☕',
+        tipKo: '"테라로사", "보헤미안" 같은 유명 카페도 좋지만, 골목 안쪽 1세대 로스터리에서 마시는 한 잔이 진짜 강릉입니다.',
+        openHoursKo: '카페마다 다름 (대체로 10:00-22:00)',
       },
       {
         id: 'pl-gn-001-3',
@@ -86,10 +92,13 @@ const raw: Omit<Course, 'score'>[] = [
         lat: 37.7556,
         lng: 128.8965,
         stayMinutes: 60,
-        descriptionKo: '닭강정과 어묵고로케 등 강릉 길거리 음식',
+        descriptionKo:
+          '바다의 짠 내음 다음은 시장의 활기찬 냄새 차례입니다. 닭강정의 달콤 매콤한 향, 어묵 고로케의 고소함, 갓 부친 메밀전. 강릉 사람들이 일상적으로 먹는 음식들이 모여 있는 이곳에서, 여행자도 잠시 동네 사람이 됩니다.',
         descriptionEn: 'Famous Gangneung street food.',
         externalMapUrl: 'https://maps.google.com/?q=37.7556,128.8965',
         emoji: '🏪',
+        tipKo: '점심 시간대(12-14시)는 인파가 몰립니다. 11시 즈음 도착해 천천히 한 바퀴 도는 게 가장 여유롭습니다.',
+        openHoursKo: '09:00-20:00 (가게마다 다름)',
       },
       {
         id: 'pl-gn-001-4',
@@ -103,10 +112,13 @@ const raw: Omit<Course, 'score'>[] = [
         lat: 37.7951,
         lng: 128.9018,
         stayMinutes: 90,
-        descriptionKo: '호숫가를 한 바퀴 걸으며 하루를 마무리하기 좋은 곳',
+        descriptionKo:
+          '하루의 마지막은 호숫가의 산책으로 마무리합니다. 둘레길은 천천히 걸어도 한 시간이면 충분합니다. 해질 무렵 호수에 비친 노을은, 종일 걸어온 발걸음의 의미를 조용히 알려줍니다. 떠나기 아쉬운 마음을 호수에 잠깐 두고 가도 좋습니다.',
         descriptionEn: 'A peaceful lakeside walk to end the day.',
         externalMapUrl: 'https://maps.google.com/?q=37.7951,128.9018',
         emoji: '🏞️',
+        tipKo: '일몰 30분 전에 도착하면 호수에 노을이 잠기는 장면을 볼 수 있습니다. 자전거 대여소도 근처에 있습니다.',
+        openHoursKo: '24시간 개방',
       },
     ],
     images: [

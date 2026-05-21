@@ -64,6 +64,11 @@ export interface CoursePlace {
   descriptionEn: string;
   externalMapUrl: string;
   emoji?: string; // small visual helper used in the timeline rows
+  tipKo?: string; // editor's tip shown in chapter page (magazine style)
+  tipEn?: string;
+  openHoursKo?: string; // 영업시간 / 운영시간
+  phone?: string;
+  admissionFee?: string; // 입장료
 }
 
 export interface CourseImage {

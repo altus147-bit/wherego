@@ -40,13 +40,13 @@ export default function ProfilePage() {
               >
                 <Link href={it.href} className="flex items-center gap-3 px-4 py-3.5">
                   <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-ink-50 text-ink-700">
-                    <Icon className="h-4.5 w-4.5" strokeWidth={2} />
+                    <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
                   </span>
                   <span className="flex-1 text-[14px] font-medium text-ink-900">{it.label}</span>
                   {it.value && (
                     <span className="text-[12.5px] font-semibold text-ink-400">{it.value}</span>
                   )}
-                  <ChevronRight className="h-4.5 w-4.5 text-ink-300" />
+                  <ChevronRight className="h-[18px] w-[18px] text-ink-300" />
                 </Link>
               </li>
             );

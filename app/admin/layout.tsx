@@ -48,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         href={m.href}
                         className="flex items-center gap-2.5 rounded-xl px-3 py-2 text-[13.5px] font-medium text-ink-700 transition hover:bg-ink-50"
                       >
-                        <Icon className="h-4.5 w-4.5" strokeWidth={2} />
+                        <Icon className="h-[18px] w-[18px]" strokeWidth={2} />
                         {m.label}
                       </Link>
                     </li>
