@@ -1,0 +1,64 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Pretendard - a popular Korean sans-serif used in many modern Korean apps */
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css');
+
+:root {
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html,
+body {
+  background-color: #f6f7fb;
+  color: #1a1d2e;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'ss01', 'ss02';
+}
+
+/* hide scrollbars on horizontal chip rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* phone-frame helper for desktop preview */
+.phone-frame {
+  max-width: 440px;
+  margin-inline: auto;
+  background: #ffffff;
+  min-height: 100vh;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  body {
+    background: linear-gradient(180deg, #eef0fb 0%, #f6f7fb 100%);
+  }
+  .phone-frame {
+    margin-top: 24px;
+    margin-bottom: 24px;
+    border-radius: 32px;
+    box-shadow: 0 30px 60px rgba(20, 23, 50, 0.08), 0 8px 16px rgba(20, 23, 50, 0.04);
+    overflow: hidden;
+  }
+}
+
+/* line-clamp utility for older builds */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
