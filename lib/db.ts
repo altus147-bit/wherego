@@ -1,5 +1,17 @@
 import { supabase, isSupabaseConfigured } from './supabase';
-import type { Region, Course, CoursePlace, CourseImage, CollectedSource } from './types';
+import type {
+  Region,
+  Course,
+  CoursePlace,
+  CourseImage,
+  CollectedSource,
+  TransportType,
+  SourceType,
+  SourcePlatform,
+  CourseStatus,
+  PlaceCategory,
+  ImageType,
+} from './types';
 
 // Supabase의 snake_case → 우리 코드의 camelCase 변환
 
@@ -24,7 +36,7 @@ function rowToPlace(row: any): CoursePlace {
     order: row.order,
     placeNameKo: row.place_name_ko,
     placeNameEn: row.place_name_en ?? '',
-    category: row.category ?? 'etc',
+    category: (row.category ?? 'etc') as PlaceCategory,
     addressKo: row.address_ko ?? '',
     addressEn: row.address_en ?? '',
     lat: row.lat ?? 0,
@@ -46,7 +58,7 @@ function rowToImage(row: any): CourseImage {
     id: row.id,
     courseId: row.course_id,
     imageUrl: row.image_url,
-    imageType: row.image_type ?? 'api_allowed',
+    imageType: (row.image_type ?? 'api_allowed') as ImageType,
     sourceUrl: row.source_url ?? '',
     sourceAuthor: row.source_author ?? '',
     licenseNote: row.license_note ?? '',
@@ -68,7 +80,7 @@ function rowToCourse(row: any, places: CoursePlace[] = [], images: CourseImage[]
     durationMinutesMax: row.duration_minutes_max ?? 0,
     estimatedBudgetMin: row.estimated_budget_min ?? 0,
     estimatedBudgetMax: row.estimated_budget_max ?? 0,
-    transportType: row.transport_type ?? 'mixed',
+    transportType: (row.transport_type ?? 'mixed') as TransportType,
     recommendedPeopleMin: row.recommended_people_min ?? 1,
     recommendedPeopleMax: row.recommended_people_max ?? 4,
     tags: row.tags ?? [],
@@ -78,15 +90,14 @@ function rowToCourse(row: any, places: CoursePlace[] = [], images: CourseImage[]
     saveCount: row.save_count ?? 0,
     viewCount: row.view_count ?? 0,
     score: row.score ?? 0,
-    sourceType: row.source_type ?? 'curated',
-    sourcePlatform: row.source_platform ?? 'naver_blog',
+    sourceType: (row.source_type ?? 'curated') as SourceType,
+    sourcePlatform: (row.source_platform ?? 'naver_blog') as SourcePlatform,
     sourceTitle: row.source_title ?? '',
     sourceAuthor: row.source_author ?? '',
     sourceUrl: row.source_url ?? '',
     collectedAt: row.collected_at ?? '',
-    status: row.status ?? 'approved',
+    status: (row.status ?? 'approved') as CourseStatus,
     createdBy: row.created_by ?? '',
-
     createdAt: row.created_at ?? '',
     updatedAt: row.updated_at ?? '',
     places,
@@ -105,11 +116,9 @@ function rowToCollected(row: any): CollectedSource {
     summary: row.summary ?? '',
     sourceUrl: row.source_url,
     sourceAuthor: row.source_author ?? '',
-    sourcePlatform: row.source_platform ?? 'naver_blog',
+    sourcePlatform: (row.source_platform ?? 'naver_blog') as SourcePlatform,
     collectedAt: row.collected_at ?? '',
-    status: row.status ?? 'pending',
-    reviewedBy: row.reviewed_by ?? '',
-    reviewedAt: row.reviewed_at ?? '',
+    status: (row.status ?? 'pending') as CourseStatus,
     rejectionReason: row.rejection_reason ?? '',
   };
 }
@@ -144,7 +153,6 @@ export async function fetchRegion(id: string): Promise<Region | null> {
 
 export async function fetchAllCourses(): Promise<Course[]> {
   if (!isSupabaseConfigured()) return [];
-  // 1. courses
   const { data: cRows, error: cErr } = await supabase
     .from('courses')
     .select('*')
@@ -154,24 +162,22 @@ export async function fetchAllCourses(): Promise<Course[]> {
     console.error('fetchAllCourses error:', cErr);
     return [];
   }
-  // 2. all images for all courses
-  const ids = cRows.map((r) => r.id);
+  const ids = cRows.map((r: any) => r.id);
   const { data: imgs } = await supabase
     .from('course_images')
     .select('*')
     .in('course_id', ids);
-  // 3. all places for all courses
   const { data: pls } = await supabase
     .from('course_places')
     .select('*')
     .in('course_id', ids)
     .order('order', { ascending: true });
 
-  return cRows.map((c) =>
+  return cRows.map((c: any) =>
     rowToCourse(
       c,
-      (pls ?? []).filter((p) => p.course_id === c.id).map(rowToPlace),
-      (imgs ?? []).filter((i) => i.course_id === c.id).map(rowToImage),
+      (pls ?? []).filter((p: any) => p.course_id === c.id).map(rowToPlace),
+      (imgs ?? []).filter((i: any) => i.course_id === c.id).map(rowToImage),
     ),
   );
 }
@@ -206,16 +212,16 @@ export async function fetchCoursesByRegion(regionId: string): Promise<Course[]> 
     .eq('status', 'approved')
     .order('score', { ascending: false });
   if (!cRows) return [];
-  const ids = cRows.map((r) => r.id);
+  const ids = cRows.map((r: any) => r.id);
   const { data: imgs } = await supabase
     .from('course_images')
     .select('*')
     .in('course_id', ids);
-  return cRows.map((c) =>
+  return cRows.map((c: any) =>
     rowToCourse(
       c,
       [],
-      (imgs ?? []).filter((i) => i.course_id === c.id).map(rowToImage),
+      (imgs ?? []).filter((i: any) => i.course_id === c.id).map(rowToImage),
     ),
   );
 }
@@ -229,16 +235,16 @@ export async function fetchTopCourses(limit: number = 5): Promise<Course[]> {
     .order('score', { ascending: false })
     .limit(limit);
   if (!cRows) return [];
-  const ids = cRows.map((r) => r.id);
+  const ids = cRows.map((r: any) => r.id);
   const { data: imgs } = await supabase
     .from('course_images')
     .select('*')
     .in('course_id', ids);
-  return cRows.map((c) =>
+  return cRows.map((c: any) =>
     rowToCourse(
       c,
       [],
-      (imgs ?? []).filter((i) => i.course_id === c.id).map(rowToImage),
+      (imgs ?? []).filter((i: any) => i.course_id === c.id).map(rowToImage),
     ),
   );
 }
