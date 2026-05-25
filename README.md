@@ -67,7 +67,9 @@ wherego/
 │   └── collected.ts            # 수집 콘텐츠 mock (검수대기/승인/반려 섞여있음)
 ├── lib/
 │   ├── types.ts                # 전체 도메인 타입 + 종합 점수 계산 함수
-│   └── format.ts               # 예산/시간/플랫폼 라벨 포맷터
+│   ├── format.ts               # 예산/시간/플랫폼 라벨 포맷터
+│   ├── supabase.ts             # Supabase 클라이언트 + isSupabaseConfigured()
+│   └── db.ts                   # Supabase row(snake_case) → 도메인 타입(camelCase) 변환
 ├── tailwind.config.js          # brand 컬러 팔레트, Pretendard 폰트
 └── ...
 ```
